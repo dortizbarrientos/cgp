@@ -1,0 +1,23 @@
+{
+  "eggs": 100.0,
+  "c_ref": 8.0,
+  "h_ref": 100.0,
+  "later_ref": 250.0,
+  "egg_ref": 100.0,
+  "beta_c": 0.5,
+  "beta_h": 0.5,
+  "beta_later": 0.5,
+  "volume_exponent": 1.0,
+  "age": 0.0,
+  "mu_c": 0.08,
+  "mu_h": 0.08,
+  "k_ref": 0.02,
+  "tau": 2.0,
+  "end": 6.0,
+  "rho": 0.4,
+  "hybrid_value": 0.4,
+  "mating_loss": 0.02,
+  "cost_r": 0.025,
+  "cost_b": 0.005,
+  "acceptance_offset": 0.0
+}

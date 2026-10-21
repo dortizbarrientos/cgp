@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "Please contact the authors before citing this working research software."
+type: software
+title: "Gamete persistence, finite eggs and reproductive discrimination"
+version: "0.1.0"
+date-released: "2026-10-21"
+authors:
+  - family-names: "Ortiz-Barrientos"
+    given-names: "Daniel"
+    affiliation: "The University of Queensland"
+  - family-names: "Servedio"
+    given-names: "Maria R."
+    affiliation: "University of North Carolina at Chapel Hill"
+  - family-names: "Rieseberg"
+    given-names: "Loren H."
+    affiliation: "The University of British Columbia"
+abstract: >-
+  Working theoretical models of functional gamete persistence, finite egg
+  availability and the joint evolution of acceptance and postmating restraint.
+  Includes earlier model versions and a proposed, unimplemented extension
+  to secondary contact and reinforcement. Numerical values are illustrative.

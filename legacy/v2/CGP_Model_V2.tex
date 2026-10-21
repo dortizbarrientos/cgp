@@ -1,0 +1,514 @@
+% Compiler: pdfLaTeX. Compile twice. References are embedded; no BibTeX needed.
+% Full project: CGP_Model_V2_Overleaf.zip. Figures have labelled fallbacks.
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=24mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,tabularx,array}
+\usepackage{graphicx,pdflscape,caption,enumitem,xcolor}
+\usepackage[round,authoryear]{natbib}
+\usepackage[colorlinks=true,linkcolor=teal,citecolor=teal,urlcolor=teal]{hyperref}
+\usepackage{bookmark}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\emergencystretch}{2em}
+\setlist{leftmargin=*,itemsep=3pt,topsep=4pt}
+\captionsetup{font=small,labelfont=bf}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\dd}{\mathrm d}
+\newcommand{\sig}{\sigma}
+\newcommand{\figfile}[1]{\IfFileExists{figures/#1.pdf}{\includegraphics[width=\linewidth,height=0.76\textheight,keepaspectratio]{figures/#1.pdf}}{\fbox{\parbox[c][50mm][c]{0.9\linewidth}{\centering Upload the complete project ZIP to display this figure.}}}}
+\title{Gamete persistence and the evolution of reproductive barriers\\\large Version 2: recipient traits, future supply and quantitative-genetic response}
+\author{Working theory note prepared for Daniel Ortiz-Barrientos}
+\date{20 October 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+Version 1 compared accepting a heterospecific contribution with retaining an ageing conspecific store. Version 2 adds a delay to fertilisation, a possible later conspecific contribution, three heritable recipient traits, and an explicit approximation for change across generations. The traits alter premating discrimination, postmating gamete efficacy and conspecific persistence. A distinction between suppressing gamete activity and redistributing paternity changes the predicted direction of selection on cryptic choice. A quantitative-genetic recursion separates selection through mothers from incoming paternal breeding values. The resulting examples demonstrate conditional evolutionary responses, not a complete model of speciation. Their numerical values are illustrative. Fixed genetic variances, fixed external donors and the absence of ancestry-dependent hybrid fitness remain substantial limitations.
+\end{abstract}
+
+\section{The question worth pursuing}
+The proposed question is: \emph{how do gamete ageing and the prospect of compatible replenishment alter selection on premating rejection, postmating discrimination and recipient-mediated persistence?} This is more specific than asking whether conspecific gametic precedence (CGP) can evolve or reduce hybridisation.
+
+That broader question already has theoretical answers. \citet{LorchServedio2007} modelled the joint evolution of CGP and premating isolation and found that either could reduce the evolution of the other. \citet{Kustra2025} modelled secondary contact and showed conditions under which cryptic female choice could maintain reproductive isolation. \citet{KustraAlonzo2023} modelled coevolution between cryptic preferences and sperm traits. These papers must frame a future novelty claim. The general connection between ejaculate characteristics and selection on remating is also established \citep{AlonzoPizzari2013}.
+
+The present extension contributes a candidate comparison: the sign of selection on a reproductive barrier can depend on the functional conspecific supply at fertilisation, and on whether discrimination reduces fertility. A complete literature comparison is still needed before calling that comparison novel.
+
+\textbf{Terminology.} Premating isolation and CGP are both potentially prezygotic barriers. Cryptic choice is a possible recipient-mediated process; CGP is a fertilisation outcome. They are not three mutually exclusive categories. In this model, recipient control is assumed by assigning a trait to its effect. An observed paternity bias alone would not establish that mechanism experimentally.
+
+\section{A specified life cycle}
+There are two time variables: $t$ is age within a reproductive episode, measured in days; $g$ is the generation. Keep these separate.
+\begin{enumerate}
+\item At time zero, a recipient receives an initial conspecific contribution $x_0$.
+\item A potential heterospecific encounter occurs at age $t$. Its probability is $e$; conditional encounter ages follow a density $f(t)$. The recipient accepts it with probability $a_H(t;r)$.
+\item Fertilisation of the focal egg cohort occurs $\tau$ days later. Both original contributions can lose function during this delay.
+\item Immediately before fertilisation, an additional conspecific contribution of functional size $L$ is supplied with probability $\rho$. This event is independent of the current acceptance decision.
+\item Each focal egg is evaluated once. Fertilisation, offspring recruitment, maternal costs and inheritance then determine the next generation.
+\end{enumerate}
+The future event is a minimal representation of compatible replenishment. It is not a solved search process or an optimal waiting policy. The later conspecific contribution is supplied exogenously; a separate acceptance decision and its mating cost are not modelled. Its consequences are identical between the current accept/reject alternatives, except for competition with the heterospecific contribution.
+
+In the numerical examples, $t$ is uniform on $[0,8]$ days. All females also have other prospective conspecific reproduction worth $B$ per focal egg. The cost of accepting the current heterospecific mating is paid from this other reproduction. This explicit allocation of costs will matter when we count paternal genetic contributions.
+
+This life cycle fits an initial animal model. It does not yet represent pollen germination, pollen-tube growth, selfing, or sequential depletion of a finite set of ovules. The focal cohort can contain $O$ eggs, but multiplying expected output by $O$ does not make gamete supply a conserved resource.
+
+\section{Three recipient traits}
+Let the phenotype be $\mathbf z=(r,b,\ell)^\mathsf T$.
+\begin{table}[htbp]\centering\small
+\begin{tabularx}{\linewidth}{@{}lXX@{}}\toprule
+Trait & Definition & Interpretation of a larger value\\\midrule
+$r$ & Shift in heterospecific acceptance on a logit scale & Greater premating discrimination against the current heterospecific donor.\\
+$b$ & Negative log multiplier of heterospecific gamete efficacy & Less heterospecific activity after acceptance; potentially greater CGP.\\
+$\ell$ & Log multiplier of conspecific functional half-life & Greater persistence of the original conspecific store.\\\bottomrule
+\end{tabularx}
+\caption{The three traits are recipient traits. Male production and intrinsic male gamete longevity do not evolve in this version.}
+\end{table}
+Use
+\begin{equation}
+\sig(v)=\frac{1}{1+e^{-v}},\qquad
+a_H(t;r)=\sig\!\left(\frac{t-t_0}{s}-r\right),\qquad s>0.
+\label{eq:acceptance}
+\end{equation}
+An otherwise matched conspecific encounter has reference acceptance
+\begin{equation}
+a_C(t)=\sig\!\left(\frac{t-t_0}{s}\right).
+\end{equation}
+This conspecific reference is used to define an assay of premating isolation. It is not a second evolving policy in the demographic calculation.
+
+The age dependence in equation~\eqref{eq:acceptance} is an assumed reaction norm. Selection changes its intercept $r$; the slope $1/s$ is fixed. The recipient uses age and a donor-category cue, not knowledge of its exact fitness payoff. Imperfect species recognition could later be represented by overlapping cue distributions.
+
+All three latent trait scales are unbounded. Negative $r$ favours heterospecific acceptance relative to the reference; negative $b$ favours heterospecific activity. A normal distribution therefore does not force every individual to discriminate in the same direction. The physiological quantities remain bounded or positive through their link functions.
+
+Define
+\begin{equation}
+h_C(\ell)=h_0e^\ell,\qquad q(b)=e^{-b}.
+\end{equation}
+Here $\ell$ changes conspecific persistence through the recipient environment. It does not change $h_H$, the heterospecific half-life, in this first extension. That selectivity is an assumption to test. A nonselective storage trait would affect both stores.
+
+\section{Availability, fertilisation and offspring value}
+The original conspecific store at the final bout is
+\begin{equation}
+X(t,\ell)=x_0\,2^{-(t+\tau)/(h_0e^\ell)}.
+\label{eq:X}
+\end{equation}
+The effective heterospecific contribution, if accepted, is
+\begin{equation}
+Y(b)=y\,2^{-\tau/h_H}e^{-b}.
+\label{eq:Y}
+\end{equation}
+The quantities are scaled measures of fertilising activity, not literal cell counts. In particular, $q>1$ represents enhanced efficacy, not the creation of sperm. Functional persistence and genetic offspring quality remain separate: $w$ enters offspring recruitment, not $X$, $Y$, or the paternity rule.
+
+Let $J\in\{0,1\}$ denote future compatible supply, with $\Pr(J=1)=\rho$. The total conspecific availability in that state is
+\begin{equation}
+U_J=X+JL.
+\end{equation}
+Retain version 1's saturating fertility function and proportional paternity rule. Conditional on acceptance,
+\begin{equation}
+C_J=\frac{U_J}{1+U_J+Y},\quad
+H_J=\frac{Y}{1+U_J+Y},\quad
+F_J=C_J+H_J.
+\label{eq:outcomes}
+\end{equation}
+These are probabilities per focal egg, before offspring viability selection. The probability of an unfertilised egg is $1/(1+U_J+Y)$, so all outcomes sum to one. Conditional conspecific paternity among fertilised eggs is $U_J/(U_J+Y)$.
+
+After rejecting the current heterospecific contribution,
+\begin{equation}
+R_J=\frac{U_J}{1+U_J}.
+\end{equation}
+Average over the future supply event:
+\begin{align}
+R&=(1-\rho)R_0+\rho R_1,\\
+C&=(1-\rho)C_0+\rho C_1,\qquad
+H=(1-\rho)H_0+\rho H_1,\\
+A&=C+wH,\qquad 0\leq w\leq1.
+\end{align}
+The symbols $R,C,H,A$ depend on $t$ and relevant traits, even when arguments are omitted. Here $w$ is specifically the relative contribution of a hybrid offspring to the recruiting cohort. A sex-specific or ancestry-dependent value would require a richer life cycle.
+
+\section{The acceptance boundary is a payoff comparison}
+Before constitutive trait costs, the marginal payoff from the current mating is
+\begin{equation}
+\boxed{\Delta(t,b,\ell)=A-R-c.}
+\label{eq:Delta}
+\end{equation}
+Acceptance has the higher payoff exactly when $\Delta>0$. This boundary does not force the reaction norm to accept only in favourable states.
+
+For a fixed future state $J$, subtraction gives
+\begin{align}
+\Delta_J
+&=\frac{U_J+wY}{1+U_J+Y}-\frac{U_J}{1+U_J}-c\\
+&=\frac{Y}{1+U_J+Y}
+\left(w-\frac{U_J}{1+U_J}\right)-c.
+\label{eq:DeltaJ}
+\end{align}
+Therefore
+\begin{equation}
+\Delta=(1-\rho)\Delta_0+\rho\Delta_1.
+\end{equation}
+Set $\rho=0$, $\tau=0$ and $b=0$. Then $U_0=x_0 2^{-t/h_C}$ and $Y=y$, so equation~\eqref{eq:DeltaJ} recovers version 1 exactly. No additive mating cost has silently become a multiplicative survival cost.
+
+At $c=0$, with a known state and $Y>0$, acceptance is favourable when
+\begin{equation}
+U_J<\frac{w}{1-w},\qquad 0<w<1.
+\end{equation}
+For uncertain future supply, average the payoffs first. Substituting $\E[U_J]$ into this nonlinear formula is generally incorrect. Figure~\ref{fig:mechanism}A illustrates the resulting payoff comparison. The effects of $\rho$ need not be monotone in every state: $\partial\Delta/\partial\rho=\Delta_1-\Delta_0$, whose sign must be checked.
+
+\section{When does postmating discrimination help?}
+\subsection{Suppressing heterospecific efficacy}
+For a fixed $U=U_J$, write
+\begin{equation}
+A_J(b)=\frac{U+wY(b)}{1+U+Y(b)},\qquad \frac{\dd Y}{\dd b}=-Y.
+\end{equation}
+First differentiate with respect to $Y$:
+\begin{align}
+\frac{\partial A_J}{\partial Y}
+&=\frac{w(1+U+Y)-(U+wY)}{(1+U+Y)^2}\\
+&=\frac{w(1+U)-U}{(1+U+Y)^2}.
+\end{align}
+Multiply by $\dd Y/\dd b$:
+\begin{equation}
+\boxed{\frac{\partial A_J}{\partial b}
+=\frac{Y\{(1-w)U-w\}}{(1+U+Y)^2}.}
+\label{eq:postgradient}
+\end{equation}
+Consequently, for $0<w<1$,
+\begin{equation}
+\frac{\partial A_J}{\partial b}>0
+\quad\Longleftrightarrow\quad U>\frac{w}{1-w}.
+\end{equation}
+The direct reproductive benefit of suppression therefore changes sign as the conspecific store declines. When $U=0$ and $w>0$, suppression removes useful fertilisations. When $w=0$ and $U>0$, it prevents the diversion of conspecific fertilisations into offspring with no recruitment value. When $w=1$, it only lowers fertility and is never beneficial through this term.
+
+This is a derivative of reproductive output after mating, not yet the net selection gradient on $b$. Constitutive costs, encounter probability, acceptance, genetic covariance and gene input still matter. The mating cost $c$ is already paid once the contribution is accepted, so it does not occur in equation~\eqref{eq:postgradient}.
+
+With uncertain future supply, define $D_j=\partial A_j/\partial b$. Then
+\begin{equation}
+\frac{\partial A}{\partial b}=(1-\rho)D_0+\rho D_1.
+\end{equation}
+If $D_0<0<D_1$, the sign changes at
+\begin{equation}
+\rho^*=\frac{-D_0}{D_1-D_0}.
+\end{equation}
+For example, $X=0.2$, $Y=2$, $L=4$ and $w=0.3$ give $\rho^*\simeq0.2348$. A greater probability of later conspecific supply makes suppression beneficial in this example. This numerical threshold is an illustration of the stated mechanism, not an empirical estimate.
+
+\subsection{Redistributing paternity at fixed total fertility}
+Now hold total fertility at its value before the bias, $F_0=(U+Y_0)/(1+U+Y_0)$, and let $Y_b=Y_0e^{-b}$ alter paternity only:
+\begin{equation}
+A_J^{\mathrm{redistribute}}(b)
+=F_0\frac{U+wY_b}{U+Y_b}.
+\end{equation}
+Differentiation gives
+\begin{equation}
+\boxed{\frac{\partial A_J^{\mathrm{redistribute}}}{\partial b}
+=F_0\frac{(1-w)UY_b}{(U+Y_b)^2}\geq0.}
+\label{eq:redistribute}
+\end{equation}
+The sign reversal disappears under this assumption (Figure~\ref{fig:mechanism}B). Such a model permits conspecific sperm to take a larger share without losing fertilisations. Whether that is possible with few conspecific gametes requires a mechanism; it cannot be assumed universally.
+
+\textbf{The comparison is essential.} We should not conclude that declining sperm function generally reverses selection on cryptic choice. It does so for some mechanisms that sacrifice fertilisation opportunities. A mechanism that reallocates paternity can give a different result. The evolutionary simulations below use suppression of efficacy, not fixed-fertility redistribution.
+
+\section{From reproductive payoff to positive lifetime fitness}
+Directly using a potentially negative version 1 payoff as reproductive fitness would be invalid. Specify other reproduction and costs explicitly instead of clipping negative values.
+
+Let
+\begin{equation}
+K(\mathbf z)=\tfrac12(k_r r^2+k_b b^2+k_\ell\ell^2),\qquad
+V(\mathbf z)=e^{-K(\mathbf z)}.
+\label{eq:cost}
+\end{equation}
+This constitutive multiplier represents costs of maintaining the traits. It acts on recipient reproductive output; the same alleles have no direct cost in males here. Its quadratic shape and symmetry are assumptions, not measured relationships.
+
+At age $t$, lifetime reproductive output per focal egg is
+\begin{equation}
+W(\mathbf z,t)=V(\mathbf z)\left[B+R+e\,a_H\Delta\right].
+\label{eq:W}
+\end{equation}
+This expectation includes recipients with no current heterospecific encounter. Equivalently, its bracket is
+\begin{equation}
+B+(1-ea_H)R+ea_H A-ea_Hc.
+\end{equation}
+Since $0\leq ea_H\leq1$ and $R,A\geq0$, the bracket is at least $B-c$. Choosing $B>c$ makes $W$ positive for every phenotype. The numerical choices are $B=0.25$ and $c=0.05$.
+
+$B$ is a biological assumption about other reproduction, not an arbitrary shift that leaves selection unchanged. Increasing $B$ dilutes the relative benefit of improving the focal bout, while constitutive costs act on all reproduction. We must estimate or vary it before biological inference.
+
+For genetic bookkeeping, distinguish recruits by paternal origin:
+\begin{align}
+W_C(\mathbf z,t)&=V\left[B+R+ea_H(C-R-c)\right],\label{eq:WC}\\
+W_H(\mathbf z,t)&=Vea_HwH.\label{eq:WH}
+\end{align}
+Then $W=W_C+W_H$. The subtraction of $c$ from $W_C$ implements the stated loss of other conspecific reproduction. Paying the cost through maternal mortality or proportional loss of all offspring would require different paternal accounting.
+
+Average over encounter ages:
+\begin{equation}
+\mathcal W(\mathbf z)=\int W(\mathbf z,t)f(t)\,\dd t,
+\qquad \mathcal W_C+\mathcal W_H=\mathcal W.
+\end{equation}
+Environmental states are sampled within each generation. These calculations do not treat an entire population as experiencing one shared random environment per generation; that would introduce a different problem involving temporal environmental variation.
+
+\section{Selection on the three traits}
+Using $\partial a_H/\partial r=-a_H(1-a_H)$,
+\begin{equation}
+\frac{\partial W}{\partial r}
+=V\left[-e a_H(1-a_H)\Delta\right]-k_r rW.
+\label{eq:rgradient}
+\end{equation}
+If acceptance is harmful, its direct contribution favours greater $r$. If acceptance is beneficial, that contribution favours lower $r$. This is how the state-dependent payoff boundary enters selection on a heritable policy.
+
+For postmating discrimination,
+\begin{equation}
+\frac{\partial W}{\partial b}
+=Ve a_H\frac{\partial A}{\partial b}-k_b bW.
+\label{eq:bgradient}
+\end{equation}
+The benefit is multiplied by the frequency of accepted heterospecific encounters. If premating isolation almost eliminates those encounters, selection through this postmating function becomes weak. This reduction in exposure is compatible with earlier results on the interaction between premating isolation and CGP \citep{LorchServedio2007}; it is not itself a new finding.
+
+For persistence, differentiate equation~\eqref{eq:X}:
+\begin{equation}
+X_\ell=\frac{\partial X}{\partial\ell}
+=X\frac{(\log2)(t+\tau)}{h_0e^\ell}\geq0.
+\end{equation}
+Because the later load $L$ is supplied at the bout, its efficacy does not depend on $\ell$ in this version. Thus
+\begin{align}
+R_\ell&=\E_J\left[\frac{X_\ell}{(1+U_J)^2}\right],\\
+A_\ell&=\E_J\left[\frac{X_\ell\{1+(1-w)Y\}}{(1+U_J+Y)^2}\right],\\
+\frac{\partial W}{\partial\ell}
+&=V\left[(1-ea_H)R_\ell+ea_H A_\ell\right]-k_\ell\ell W.
+\end{align}
+Preserving conspecific activity has a nonnegative direct reproductive benefit under these assumptions. The constitutive cost prevents us from automatically treating indefinite persistence as optimal. If a storage trait also preserved heterospecific activity, its derivative would contain an additional term and could change sign.
+
+These expressions concern individual marginal effects. A population response need not have the same sign in every trait because genetic covariance can transmit selection across traits.
+
+\section{A quantitative-genetic population model}
+\subsection{Average over variation, not just the mean individual}
+At generation $g$, assume
+\begin{equation}
+\mathbf z\sim N(\boldsymbol\mu_g,\mathbf P),\qquad
+\mathbf P=\mathbf G+\mathbf E,
+\end{equation}
+where $\mathbf G$ is additive genetic covariance and $\mathbf E$ is independent environmental covariance. These covariances are on the latent trait scales. Let
+\begin{equation}
+\overline W_g=\E_{\mathbf z}[\mathcal W(\mathbf z)],\qquad
+\boldsymbol\beta_g
+=\mathbf P^{-1}\frac{\Cov_{\mathbf z}(\mathbf z,\mathcal W)}{\overline W_g}.
+\label{eq:beta}
+\end{equation}
+This is the multivariate linear selection gradient based on relative fitness \citep{LandeArnold1983}. We evaluate both the age distribution and phenotype distribution numerically. In general,
+\begin{equation}
+\E[\mathcal W(\mathbf z)]\ne\mathcal W(\E[\mathbf z]).
+\end{equation}
+Ignoring variation can be especially misleading when some recipients lie on different sides of a payoff boundary.
+
+For a fixed Gaussian $\mathbf P$, integration by parts gives an independent expression:
+\begin{equation}
+\boldsymbol\beta_g
+=\frac{\E[\nabla_{\mathbf z}\mathcal W]}{\overline W_g}
+=\nabla_{\boldsymbol\mu}\log\overline W_g.
+\label{eq:stein}
+\end{equation}
+To see why, let $\phi$ be the normal density. Its mean derivative is
+$\nabla_\mu\phi=\mathbf P^{-1}(\mathbf z-\boldsymbol\mu)\phi$.
+Differentiating $\int\mathcal W\phi\,\dd\mathbf z$ therefore yields
+$\nabla_\mu\overline W=\mathbf P^{-1}\Cov(\mathbf z,\mathcal W)$.
+Integration by parts transfers the derivative from the density to $\mathcal W$; the boundary term vanishes for the present bounded fitness function. Dividing by $\overline W$ proves equation~\eqref{eq:stein}.
+
+\subsection{Why female-limited selection needs an inheritance step}
+Let $\mathbf a$ be the additive breeding-value vector. Under joint normality,
+\begin{equation}
+\E[\mathbf a\mid\mathbf z]
+=\boldsymbol\mu+\mathbf G\mathbf P^{-1}(\mathbf z-\boldsymbol\mu).
+\end{equation}
+Weight maternal breeding values by offspring recruitment:
+\begin{align}
+\overline{\mathbf a}_{\mathrm{mothers}}
+&=\frac{\E[\mathbf a\mathcal W]}{\overline W}\\
+&=\boldsymbol\mu+\mathbf G\mathbf P^{-1}
+\frac{\Cov(\mathbf z,\mathcal W)}{\overline W}\\
+&=\boldsymbol\mu+\mathbf G\boldsymbol\beta.
+\label{eq:mothers}
+\end{align}
+This is the mean among contributing mothers, not yet the offspring mean. A sexually produced offspring receives half its additive breeding value from each parent on average. Sex-specific selection must therefore be handled explicitly, as in quantitative-genetic treatments of sex-limited traits \citep{Lande1980}.
+
+Define the fraction of recruits with heterospecific fathers as
+\begin{equation}
+\pi_{H,g}=\frac{\E_{\mathbf z}[\mathcal W_H]}{\overline W_g}.
+\end{equation}
+It includes mating, fertilisation, offspring recruitment and maternal costs. It is not the encounter probability $e$ or the fraction of matings accepted.
+
+Assume conspecific fathers are drawn independently with mean breeding value $\boldsymbol\mu_g$. Heterospecific fathers come from a fixed pool with mean $\boldsymbol\mu_D$. Although these traits are expressed in recipients, fathers carry their alleles. In this version, paternal values of these recipient traits do not themselves affect male mating or gamete performance. Hence
+\begin{equation}
+\overline{\mathbf a}_{\mathrm{fathers}}
+=(1-\pi_H)\boldsymbol\mu_g+\pi_H\boldsymbol\mu_D.
+\end{equation}
+Combine the parental contributions:
+\begin{align}
+\boldsymbol\mu_{g+1}
+&=\tfrac12\overline{\mathbf a}_{\mathrm{mothers}}
++\tfrac12\overline{\mathbf a}_{\mathrm{fathers}}\\
+&=\boldsymbol\mu_g+\tfrac12\mathbf G\boldsymbol\beta_g
++\tfrac12\pi_{H,g}(\boldsymbol\mu_D-\boldsymbol\mu_g).
+\label{eq:recursion}
+\end{align}
+\begin{equation}
+\boxed{\Delta\boldsymbol\mu_g
+=\underbrace{\tfrac12\mathbf G\boldsymbol\beta_g}_{\text{selection through recipients}}
++\underbrace{\tfrac12\pi_{H,g}(\boldsymbol\mu_D-\boldsymbol\mu_g)}_{\text{incoming paternal breeding values}}.}
+\end{equation}
+The one-half factors follow from the stated biparental life cycle. They are not a universal correction for every application of $\mathbf G\boldsymbol\beta$. Hermaphroditic selection through both reproductive functions, sex linkage, maternal inheritance and selection on males require different accounting.
+
+\subsection{What is exact, and what is approximate?}
+The parental mean accounting is exact under the specified additive inheritance and conditional breeding-value assumptions. Iterating it while restoring $N(\boldsymbol\mu_{g+1},\mathbf P)$ with fixed $\mathbf G$ and $\mathbf P$ is a \emph{Gaussian closure approximation}. It does not calculate the actual offspring distribution, linkage disequilibrium, changes in genetic variance or segregation among hybrid descendants.
+
+Recruits are assigned to the focal recipient environment in the next generation. A current external-donor cross incurs the same $w$ regardless of the mother's ancestry; breeding values have the same effects across backgrounds. These assumptions permit a tractable first response calculation, but they cannot establish the persistence of species boundaries or predict neutral genomic introgression. The scalar $\pi_H$ measures current paternal origin among recruits, not genome-wide ancestry.
+
+The external donor pool is fixed. There is no reciprocal evolution in the other population and no selection on male production or intrinsic longevity. The constant-$\mathbf G$ trajectories are therefore conditional model examples, even when they are iterated for hundreds of generations.
+
+\subsection{Genetic covariance changes the direction of response}
+For example, the recipient-selection contribution to $b$ is
+\begin{equation}
+\Delta\mu_b\big|_{\mathrm{selection}}
+=\tfrac12(G_{br}\beta_r+G_{bb}\beta_b+G_{b\ell}\beta_\ell).
+\end{equation}
+A negative covariance can oppose a positive direct selection gradient. Without paternal input and for small changes,
+\begin{equation}
+\Delta\log\overline W
+\simeq\tfrac12\boldsymbol\beta^\mathsf T\mathbf G\boldsymbol\beta\geq0
+\end{equation}
+when $\mathbf G$ is positive semidefinite. This first-order result does not guarantee that every finite update increases fitness. Incoming genes, changing ecology or frequency-dependent fitness can also prevent mean fitness from increasing.
+
+\section{A population occupies many reproductive states}
+A population does not have to reach one common optimal threshold. Its individuals vary in age and phenotype, and their payoffs also depend on future supply. Define
+\begin{equation}
+\Omega_g=\E_{\mathbf z,t}\left[\mathbf1\{\Delta(t,b,\ell)>0\}\right].
+\end{equation}
+This is the fraction of potential encounter states in which acceptance would have the higher payoff. Actual conditional acceptance is
+\begin{equation}
+\alpha_g=\E_{\mathbf z,t}[a_H(t;r)].
+\end{equation}
+They need not be equal. The reaction norm is constrained, costs affect selection, and incoming genes can oppose it. The code records both quantities. The indicator in $\Omega$ is numerically less smooth than fitness, so its values are descriptive quadrature estimates rather than high-precision thresholds.
+
+There are also two different notions of a threshold. The reaction norm has $50\%$ acceptance at $t=t_0+sr$. The payoff boundary is defined by $\Delta=0$. One is a behavioural trait expression; the other is a comparison between reproductive outcomes. Their difference is measurable and can itself be studied.
+
+\section{Measure different barriers separately}
+\textbf{Premating isolation.} A standardised age distribution gives
+\begin{equation}
+I_{\mathrm{pre},g}=1-\frac{\E[a_H(t;r)]}{\E[a_C(t)]}.
+\end{equation}
+Positive values mean reduced heterospecific acceptance relative to the matched conspecific reference. Negative values indicate the reverse. Because the expectation is nonlinear, a population with mean $r=0$ and variance in $r$ need not have exactly zero index.
+
+\textbf{Postmating bias in a controlled assay.} With fixed conspecific and heterospecific activities $U,Y_0>0$, individual conspecific paternity is
+\begin{equation}
+P_C(b)=\frac{U}{U+Y_0e^{-b}}.
+\end{equation}
+Therefore
+\begin{equation}
+\log\frac{P_C(b)}{1-P_C(b)}
+-\log\frac{P_C(0)}{1-P_C(0)}=b.
+\end{equation}
+The trait has a direct interpretation as a change in paternity log odds at fixed availability. The numerical assay sets $U=Y_0=1$ and pools conspecific fertilisations over total fertilisations across recipients:
+\begin{equation}
+P_{C,g}^{\mathrm{assay}}
+=\frac{\E[1/(2+e^{-b})]}{\E[(1+e^{-b})/(2+e^{-b})]}.
+\end{equation}
+This ratio is not $\E[\sig(b)]$. Because recipients with different $b$ have different fertility, pooled paternity need not equal $1/2$ when mean $b=0$. A homogeneous $b=0$ population does give $1/2$. The appropriate empirical null must match the sampling and weighting scheme.
+
+\textbf{Realised hybrid fertilisation.} In the focal bout, before offspring mortality,
+\begin{equation}
+\mathcal H_g=
+\frac{\E[e a_H H]}{\E[R+e a_H(C+H-R)]}.
+\end{equation}
+This is a ratio of expected counts. It excludes the background reproduction $B$ and constitutive survival weighting; it describes an assay of the reproductive episode before those later effects. The recruiting hybrid fraction $\pi_H$ is a different measure. Neither is automatically a long-term gene-flow rate.
+
+\section{Illustrative calculations and checks}
+The simulations use $x_0=y=L=4$, $h_0=h_H=2$ days, $\tau=1$ day, $t\sim\mathrm{Uniform}(0,8)$, $t_0=3$ days, $s=1.5$ days, $e=0.6$, $w=0.3$, $B=0.25$ and $c=0.05$. Constitutive cost coefficients are $(k_r,k_b,k_\ell)=(0.01,0.01,0.10)$, with
+\begin{equation}
+\mathbf P=\operatorname{diag}(0.16,0.16,0.16),\qquad
+\mathbf G=\operatorname{diag}(0.08,0.08,0.03).
+\end{equation}
+Both the initial resident mean and fixed external donor mean are zero. The initial \emph{mean} half-life is $2e^{0.16/2}\simeq2.167$ days, not $2$ days; $2$ is the half-life at mean $\ell=0$.
+
+Figures~\ref{fig:evolution} and~\ref{fig:barriers} compare future compatible supply probabilities $\rho=0.1$ and $0.8$. A third curve removes only the incoming-mean term in equation~\eqref{eq:recursion}, retaining $\rho=0.1$. This is a selection-only counterfactual, equivalent for mean accounting to heterospecific fathers matching the current resident mean for these traits. It does not remove heterospecific fertilisations or make hybrids sterile.
+
+\begin{table}[htbp]\centering\small
+\begin{tabular}{@{}lrrr@{}}\toprule
+Quantity at generation 600 & Low supply & High supply & Selection only\\\midrule
+Mean $r$ & 0.0174 & 0.0357 & 0.4475\\
+Mean $b$ & 0.0130 & 0.0629 & 0.5542\\
+Mean half-life (days) & 2.381 & 2.275 & 6.303\\
+Heterospecific acceptance & 0.604 & 0.601 & 0.535\\
+Standardised assay $P_C$ & 0.497 & 0.509 & 0.625\\
+Hybrid share in focal bout & 0.344 & 0.172 & 0.155\\\bottomrule
+\end{tabular}
+\caption{Illustrative outputs from the supplied code, not fitted estimates. Low and high supply retain incoming paternal breeding values; the final column is a counterfactual with low supply.}
+\end{table}
+
+These examples do not produce strong isolation automatically. Incoming breeding values restrict changes in $r$, $b$ and $\ell$. More future compatible supply is associated here with greater discrimination but less investment in persistence of the original store. The lower realised hybrid share in the high-supply treatment is partly an immediate ecological consequence of extra conspecific material, not solely evolved discrimination. The selection-only curve demonstrates how omitting paternal input can substantially change the conclusion.
+
+An additional control sets the genetic correlation between $r$ and $b$ to $-0.8$, retaining their variances. With low future supply and paternal input, mean $b$ at generation 600 is approximately $-0.00087$, compared with $0.01296$ under zero covariance. This is one demonstration of a genetic constraint, not a general result about negative correlations. These results are in the CSV files.
+
+\textbf{Numerical verification.} The analytical fitness derivatives agree with central finite differences to approximately $2.1\times10^{-11}$ in the checked states. Recovery of version 1 has error below $2\times10^{-16}$. The independent Gaussian covariance/derivative expressions for selection agree within $3.2\times10^{-6}$ at the checked point. Increasing quadrature from seven to nine nodes per trait and from 64 to 80 age nodes changes the displayed mean-trait, mean-half-life and mean-fitness trajectories by less than $2.4\times10^{-5}$. Probability bounds, positive fitness and relevant boundary cases are checked. These checks establish consistency of the implementation, not biological validity.
+
+\section{What we can claim, and what still needs work}
+The current equations establish three conditional results: functional supply can reverse the direct benefit of suppressing heterospecific efficacy; expected compatible replenishment changes that benefit; and a quantitative-genetic response depends on genetic covariance and the genetic contribution of fathers as well as the maternal payoff gradient.
+
+They do not yet establish that this process explains observed CGP, that cryptic choice is the underlying mechanism, or that it maintains species boundaries. The dependence on discrimination mechanism is especially important. We should also resist identifying every increase in premating discrimination as reinforcement: the direct mating cost $c$ can generate selection independently of hybrid disadvantage. Holding other parameters fixed and varying $w$, including $w=1$, separates these sources of selection.
+
+Persistence can also be favoured without heterospecific encounters. At $e=0$ and $\ell=0$, its marginal cost is zero while $R_\ell>0$ at positive ages. Thus selection on storage alone can later change CGP in an assay using aged stores. Such an outcome need not be an adaptation to avoid hybridisation; compare it with an assay that standardises current functional availability.
+
+The next biological checks are:
+\begin{enumerate}
+\item \textbf{Measure function, parentage and recruitment separately.} Follow functional sperm availability, total fertilisation, zygote parentage and later survival. Adult parentage alone confounds fertilisation bias with hybrid mortality.
+\item \textbf{Manipulate gamete age independently of arrival order.} A later contribution need not contain younger gametes. Equal initial counts also need not mean equal functional activity.
+\item \textbf{Determine whether bias costs fertility.} At matched functional supplies, test whether increased conspecific share reduces total fertilisation. This distinguishes the two mechanisms in equations~\eqref{eq:postgradient} and~\eqref{eq:redistribute}.
+\item \textbf{Estimate recipient genetic variation.} Use donor-by-recipient designs and pedigrees to estimate variation in the acceptance reaction norm, postmating bias and persistence. Repeated states are needed to distinguish reaction norms from one-time behaviours.
+\item \textbf{Estimate costs and compatible supply.} The parameters $B,c,k_r,k_b,k_\ell,e,\rho$ and the age distribution need biological support. Varying them is necessary before promoting the displayed trajectories to general predictions.
+\end{enumerate}
+
+For a full evolutionary paper, the next genetic extension should track two populations, male traits, inheritance and hybrid ancestry explicitly. Additive loci and independent environmental deviations can be used initially; a few major incompatibility loci can then test where a Gaussian approximation fails. Include neutral ancestry markers if the intended outcome is restricted gene flow. Male and recipient fitness must be calculated separately. Selection on a recipient barrier does not guarantee that the barrier persists when male compatibility evolves; an explicit model has already shown transient reinforcement through that conflict \citep{Rushworth2022}.
+
+A later ecological extension should permit repeated encounters and fertilisation events, with survival, remaining eggs and gamete consumption in the state. Rejection can then retain the possibility of a later donor, and acceptance can change subsequent behaviour. The present $\rho$ term includes a future contribution but does not solve this sequential problem.
+
+For plants, develop a distinct finite-ovule version with pollen developmental stages and timing of access. Selfing should enter as an additional action with inbreeding depression, timing and male-function consequences. Simply replacing the word sperm with pollen would not supply those mechanisms.
+
+\textbf{Working conclusion.} Version 2 makes the evolutionary question calculable. Its strongest current use is to identify which mechanisms and parameters can change the direction of selection, and which measurements can distinguish them. A publishable claim about reproductive isolation should follow the mechanism comparison and the explicit genetic extension, not precede them.
+
+\clearpage
+\begin{landscape}
+\begin{figure}[p]\centering
+\figfile{Figure_1_Decisions_and_Mechanisms}
+\caption{\textbf{Future supply and the mechanism of discrimination change the payoff.} Panel A plots equation~\eqref{eq:Delta} at mean phenotype zero for three future conspecific-supply probabilities. Parameters follow the numerical section, with encounter age extended to 12 days to display the boundary. Acceptance is favoured above zero. Panel B compares the direct derivative of reproductive value under suppression and fixed-fertility redistribution, at $Y=Y_0=2$, $b=0$ and $w=0.3$. The dotted line is $U=w/(1-w)$. These are conditional marginal benefits before constitutive costs and genetic effects.}\label{fig:mechanism}
+\end{figure}
+\clearpage
+\begin{figure}[p]\centering
+\figfile{Figure_2_Recipient_Evolution}
+\caption{\textbf{Recipient traits change under the quantitative-genetic approximation.} The two supply treatments retain a fixed external donor mean of zero. The selection-only reference has low future supply but omits the incoming-mean term, while retaining heterospecific fertilisation and recruitment. This reference is not a no-hybridisation treatment. The model fixes $\mathbf P$ and $\mathbf G$ and does not track hybrid ancestry. All rates, costs and covariance values are illustrative.}\label{fig:evolution}
+\end{figure}
+\clearpage
+\begin{figure}[p]\centering
+\figfile{Figure_3_Isolation_Outcomes}
+\caption{\textbf{Changes in traits do not map to a single isolation measure.} Acceptance is conditional on a current heterospecific encounter. The premating index compares that acceptance with the fixed conspecific reference. The standardised mixed-gamete assay pools fertilisations at equal initial functional supplies and scores parentage before offspring mortality; trait variation means its initial pooled value need not equal $1/2$. The hybrid share is measured in the focal reproductive bout, excluding background reproduction and later viability. Differences between ecological treatments exist before evolution starts.}\label{fig:barriers}
+\end{figure}
+\clearpage
+\end{landscape}
+
+\begin{thebibliography}{99}
+\bibitem[Alonzo and Pizzari(2013)]{AlonzoPizzari2013}
+Alonzo, S.~H. and Pizzari, T. (2013). Selection on female remating interval is influenced by male sperm competition strategies and ejaculate characteristics. \emph{Philosophical Transactions of the Royal Society B} 368:20120044. \url{https://doi.org/10.1098/rstb.2012.0044}.
+
+\bibitem[Kustra and Alonzo(2023)]{KustraAlonzo2023}
+Kustra, M.~C. and Alonzo, S.~H. (2023). The coevolutionary dynamics of cryptic female choice. \emph{Evolution Letters} 7:191--202. \url{https://doi.org/10.1093/evlett/qrad025}.
+
+\bibitem[Kustra et~al.(2025)]{Kustra2025}
+Kustra, M.~C., Servedio, M.~R. and Alonzo, S.~H. (2025). Cryptic female choice can maintain reproductive isolation. \emph{Evolution} 79:2259--2273. \url{https://doi.org/10.1093/evolut/qpaf156}.
+
+\bibitem[Lande(1980)]{Lande1980}
+Lande, R. (1980). Sexual dimorphism, sexual selection, and adaptation in polygenic characters. \emph{Evolution} 34:292--305. \url{https://doi.org/10.1111/j.1558-5646.1980.tb04817.x}.
+
+\bibitem[Lande and Arnold(1983)]{LandeArnold1983}
+Lande, R. and Arnold, S.~J. (1983). The measurement of selection on correlated characters. \emph{Evolution} 37:1210--1226. \url{https://doi.org/10.1111/j.1558-5646.1983.tb00236.x}.
+
+\bibitem[Lorch and Servedio(2007)]{LorchServedio2007}
+Lorch, P.~D. and Servedio, M.~R. (2007). The evolution of conspecific gamete precedence and its effect on reinforcement. \emph{Journal of Evolutionary Biology} 20:937--949. \url{https://doi.org/10.1111/j.1420-9101.2007.01306.x}.
+
+\bibitem[Rushworth et~al.(2022)]{Rushworth2022}
+Rushworth, C.~A., Wardlaw, A.~M., Ross-Ibarra, J. and Brandvain, Y. (2022). Conflict over fertilization underlies the transient evolution of reinforcement. \emph{PLoS Biology} 20:e3001814. \url{https://doi.org/10.1371/journal.pbio.3001814}.
+\end{thebibliography}
+\end{document}

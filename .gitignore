@@ -1,0 +1,28 @@
+# Local Python environments, bytecode and test caches.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# TeX intermediates; manuscript and figure PDFs are intentionally tracked.
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+
+# Local releases, temporary builds and operating-system metadata.
+dist/
+build/
+.DS_Store
+Thumbs.db
+*.tmp
+*.new

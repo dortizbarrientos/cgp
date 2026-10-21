@@ -1,0 +1,65 @@
+{
+  "parameters": {
+    "x0": 4.0,
+    "h0": 2.0,
+    "hH": 2.0,
+    "y": 4.0,
+    "future_load": 4.0,
+    "tau": 1.0,
+    "rho": 0.1,
+    "encounter": 0.6,
+    "w": 0.3,
+    "c": 0.05,
+    "background": 0.25,
+    "age_min": 0.0,
+    "age_max": 8.0,
+    "age_mid": 3.0,
+    "age_scale": 1.5,
+    "kr": 0.01,
+    "kb": 0.01,
+    "kl": 0.1
+  },
+  "P": [
+    [
+      0.16,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.16,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.16
+    ]
+  ],
+  "G": [
+    [
+      0.08,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.08,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.03
+    ]
+  ],
+  "external_trait_mean": [
+    0,
+    0,
+    0
+  ],
+  "generations": 600,
+  "integration": "7-point Gauss-Hermite per trait, 64-point age quadrature",
+  "high_resolution_check": "9-point Gauss-Hermite, 80-point age quadrature",
+  "seed": "No stochastic simulation; seed 41 used only for derivative checks."
+}

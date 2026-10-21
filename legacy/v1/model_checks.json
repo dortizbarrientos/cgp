@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "figure_2_switch_days": 4.835141672526998,
+  "cost_free_switch_same_parameters_days": 4.0,
+  "figure_4_day_8_hH_1_conspecific_share": 0.9411764705882353,
+  "figure_4_day_8_hH_1_total_fertilisation": 0.06227106227106227,
+  "checks": [
+    "payoff decomposition",
+    "fertilisation probabilities sum to one",
+    "acceptance boundary sign",
+    "analytical switch",
+    "numerical switch"
+  ]
+}

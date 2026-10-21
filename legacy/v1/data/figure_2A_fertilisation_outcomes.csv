@@ -1,0 +1,5 @@
+age_days,action,old_store,new_store,probability_conspecific_fertilisation,probability_hybrid_fertilisation,probability_unfertilised
+0,Reject,4.0,0.0,0.8,0.0,0.2
+0,Accept,4.0,4.0,0.4444444444444444,0.4444444444444444,0.1111111111111111
+6,Reject,0.5,0.0,0.3333333333333333,0.0,0.6666666666666666
+6,Accept,0.5,4.0,0.09090909090909091,0.7272727272727273,0.18181818181818182

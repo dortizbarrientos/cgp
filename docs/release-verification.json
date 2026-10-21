@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-21",
+  "current_validation_passed": true,
+  "current_analysis_completed": true,
+  "figure_csv_files_identical": 16,
+  "summary_matches_excluding_runtime": true,
+  "all_seven_figures_regenerated": true,
+  "legacy_models": "Preserved, not rerun during this packaging pass.",
+  "secondary_contact_simulated": false,
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "scipy": "1.17.0",
+  "matplotlib": "3.10.8"
+}

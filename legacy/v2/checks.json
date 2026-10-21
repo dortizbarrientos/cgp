@@ -1,0 +1,14 @@
+{
+  "finite_difference_gradient_max_error": 2.056010917073081e-11,
+  "version_1_recovery_max_error": 1.1102230246251565e-16,
+  "gaussian_gradient_identity_max_error": 3.1484199611853114e-06,
+  "positive_fitness": true,
+  "probability_bounds": true,
+  "no_encounter_selection_limit": true,
+  "w_equals_1_limit": true,
+  "future_C_0p1_trajectory_quadrature_error": 1.922273143328823e-06,
+  "future_C_0p8_trajectory_quadrature_error": 1.1187157347158916e-06,
+  "selection_only_counterfactual_distinct": true,
+  "selection_only_fitness_nondecreasing": true,
+  "selection_only_trajectory_quadrature_error": 2.3758040086363508e-05
+}

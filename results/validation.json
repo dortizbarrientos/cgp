@@ -1,0 +1,73 @@
+{
+  "conservation_max_absolute_error": 1.0231815394945443e-12,
+  "minimum_state": 0.0,
+  "RK4_vs_DOP853_max_absolute_error": 1.2416222716638003e-08,
+  "production_step_001_vs_0005_max_absolute_error": 1.9130592932015134e-07,
+  "exact_equal_pool_error": 1.3134453524799028e-09,
+  "zero_sperm_limit": true,
+  "adjoint_derivative_max_error": 7.024198112048907e-09,
+  "linear_scaling_symmetry_error": 0.0,
+  "baseline_thresholds": {
+    "rho_accept": 0.40789051044521946,
+    "rho_restraint": 0.22070275755185928,
+    "D_branches": [
+      32.43041241653942,
+      -47.077228938345414
+    ],
+    "S_branches": [
+      -1.3670294632461832,
+      4.826955054255677
+    ]
+  },
+  "limiting_model_minimum_threshold_gap": 2.36410344117699e-05,
+  "quadrature_W_relative_error_9_vs_13": 2.4358293160275934e-12,
+  "selection_gradient_vs_mean_fitness_slope": 2.288877630334809e-07,
+  "matched_initial_activity_recruitment": {
+    "access": 48.758671920910956,
+    "removal": 44.72444944666666,
+    "early_access": 51.01575613319191
+  },
+  "Gillespie": {
+    "0.0": {
+      "branches": [
+        {
+          "mean": 41.00348,
+          "se": 0.015425964151196478,
+          "n": 5000,
+          "seed": 20261020
+        },
+        {
+          "mean": 53.969919999999995,
+          "se": 0.02351530634813269,
+          "n": 5000,
+          "seed": 20261021
+        }
+      ],
+      "expected_mean": 46.190056,
+      "se": 0.013196244709055843,
+      "deterministic": 46.15815403236046,
+      "relative_difference": 0.0006911447892213276
+    },
+    "2.0": {
+      "branches": [
+        {
+          "mean": 33.212720000000004,
+          "se": 0.020364895926992196,
+          "n": 5000,
+          "seed": 20261220
+        },
+        {
+          "mean": 72.04732000000001,
+          "se": 0.03276117858814754,
+          "n": 5000,
+          "seed": 20261221
+        }
+      ],
+      "expected_mean": 48.74656000000001,
+      "se": 0.017917299087745336,
+      "deterministic": 48.758671920910956,
+      "relative_difference": -0.00024840547196594575
+    }
+  },
+  "all_checks_passed": true
+}
